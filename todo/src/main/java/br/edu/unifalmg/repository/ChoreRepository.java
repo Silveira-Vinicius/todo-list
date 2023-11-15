@@ -12,4 +12,6 @@ public interface ChoreRepository {
 
     boolean save(Chore chore);
 
+    Chore updateChore(Chore chore);
+
 }

@@ -128,15 +128,27 @@ public class ChoreServiceTest {
         });
     }
 
+//    @Test
+//    @DisplayName("#deleteChore > When the list is not empty > When the chore exists > Delete the chore")
+//    void deleteChoreWhenTheListIsNotEmptyWhenTheChoreExistsDeleteTheChore() {
+//        ChoreService service = new ChoreService();
+//
+//        service.addChore("Chore #01", LocalDate.now().plusDays(1));
+//        assertEquals(1, service.getChores().size());
+//
+//        assertDoesNotThrow(() -> service.deleteChore("Chore #01", LocalDate.now().plusDays(1)));
+//        assertEquals(0, service.getChores().size());
+//    }
+
     @Test
     @DisplayName("#deleteChore > When the list is not empty > When the chore exists > Delete the chore")
-    void deleteChoreWhenTheListIsNotEmptyWhenTheChoreExistsDeleteTheChore() {
+    void deleteChoreWhenTheListIsNotEmptyWhenTheChoreExistsDeleteTheChore(){
         ChoreService service = new ChoreService();
 
         service.addChore("Chore #01", LocalDate.now().plusDays(1));
         assertEquals(1, service.getChores().size());
-
-        assertDoesNotThrow(() -> service.deleteChore("Chore #01", LocalDate.now().plusDays(1)));
+        assertDoesNotThrow(()->
+                service.deleteChore("Chore #01", LocalDate.now().plusDays(1)));
         assertEquals(0, service.getChores().size());
     }
 

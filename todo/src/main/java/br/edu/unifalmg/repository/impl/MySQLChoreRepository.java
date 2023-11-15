@@ -74,6 +74,7 @@ public class MySQLChoreRepository implements ChoreRepository {
             preparedStatement.setString(1, chore.getDescription());
             preparedStatement.setBoolean(2, chore.getIsCompleted());
             preparedStatement.setDate(3, Date.valueOf(chore.getDeadline()));
+            preparedStatement.setInt(4, Math.toIntExact(chore.getId()));
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 return Boolean.TRUE;
@@ -85,6 +86,31 @@ public class MySQLChoreRepository implements ChoreRepository {
             closeConnections();
         }
         return false;
+    }
+
+    @Override
+    public Chore updateChore(Chore chore) {
+        if (!connectToMySQL()) {
+            return null;
+        }
+        try {
+            preparedStatement = connection.prepareStatement(
+                    ChoreBook.UPDATE_CHORE);
+            preparedStatement.setString(1, chore.getDescription());
+            preparedStatement.setBoolean(2, chore.getIsCompleted());
+            preparedStatement.setDate(3, Date.valueOf(chore.getDeadline()));
+            preparedStatement.setLong(4, Math.toIntExact(chore.getId()));
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                return chore;
+            }
+            return null;
+        } catch (SQLException exception) {
+            System.out.println("Error when updating a chore on database");
+        } finally {
+            closeConnections();
+        }
+        return null;
     }
 
     private boolean connectToMySQL() {
