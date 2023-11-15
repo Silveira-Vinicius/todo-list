@@ -80,8 +80,11 @@ public class ChoreService {
 //         chore.setDescription(description);
 //         chore.setDeadline(deadline);
 //         chore.setIsCompleted(Boolean.FALSE);
-
-
+        if (Objects.nonNull(repository)) {
+            repository.save(chore);
+        } else {
+            System.out.println("Repository is null");
+        }
         chores.add(chore);
         return chore;
     }
@@ -168,6 +171,16 @@ public class ChoreService {
         this.chores = repository.load();
     }
 
-    private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();
+    /**
+     * Save the chores into the file
+     *
+     * @return TRUE, if the saved was completed and <br/>
+     *         FALSE, when the save fails
+     */
+    public Boolean saveChores() {
+        return repository.saveAll(this.chores);
+    }
+
+    private final Predicate<List<Chore>> isChoreListEmpty = List::isEmpty;
 
 }

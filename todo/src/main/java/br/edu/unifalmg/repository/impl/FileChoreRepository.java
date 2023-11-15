@@ -22,31 +22,44 @@ public class FileChoreRepository implements ChoreRepository {
     @Override
     public List<Chore> load() {
         try {
-            return Arrays.asList(
-                    mapper.readValue(new File("chores.json"), Chore[].class)
+            // Arrays.asList → Gera uma lista IMUTAVEL
+            return new ArrayList<>(
+                    Arrays.asList(
+                            mapper.readValue(new File("chores.json"), Chore[].class)
+                    )
             );
 
             // Using TypeReference
 //            return mapper.readValue(new File("chores.json"),
 //                    new TypeReference<>() {
 //                    });
-        }catch(MismatchedInputException exception){
-            System.out.println("ERROR: Unable to convert file into chores");
+        } catch(MismatchedInputException exception) {
+            System.out.println("Unable to convert the content of the file into Chores!");
         } catch(IOException exception) {
             System.out.println("ERROR: Unable to open file.");
         }
         return new ArrayList<>();
-
     }
+
     @Override
-    public boolean save(List<Chore> chores){
+    public boolean saveAll(List<Chore> chores) {
         try {
             mapper.writeValue(new File("chores.json"), chores);
             return true;
         } catch (IOException exception) {
-            System.out.println("ERROR: Unable to save chores.");
+            System.out.println("ERROR: Unable to write the chores on the file.");
         }
         return false;
+    }
+
+    @Override
+    public boolean save(Chore chore) {
+        throw new RuntimeException("Operation not supported yet.");
+    }
+
+    @Override
+    public Chore updateChore(Chore chore) {
+        throw new RuntimeException("Operation not supported yet.");
     }
 
 }
